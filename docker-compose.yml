@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: gimnasio_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin_gym
+      POSTGRES_PASSWORD: gbgs.70016618
+      POSTGRES_DB: gimnasio_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
