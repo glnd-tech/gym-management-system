@@ -51,4 +51,15 @@ export class SubscriptionsService {
     if (!sub) throw new NotFoundException(`Suscripción con ID ${id} no encontrada`);
     return sub;
   }
+
+  async findActiveByUserId(userId: number) {
+    return await this.subRepository.findOne({
+      where: {
+        user: { id: userId },
+        isActive: true,
+      },
+      order: { endDate: 'DESC' } // Trae la más reciente por si tiene varias
+    });
+  }
+
 }

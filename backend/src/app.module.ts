@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { PlansModule } from './plans/plans.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { AuthModule } from './auth/auth.module';
+import { AttendanceModule } from './attendance/attendance.module';
 
 @Module({
   imports: [
@@ -32,6 +33,8 @@ import { AuthModule } from './auth/auth.module';
     SubscriptionsModule,
 
     AuthModule,
+
+    AttendanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -11,3 +11,13 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
+
+// Antes de ejecutar los comandos se debe estar en la carpeta backend.
+// cd backend
+
+// Encendido de la base de datos (Docker)
+// docker compose up -d
+
+// Encendido del servidor (NestJS)
+// npm run start:dev
