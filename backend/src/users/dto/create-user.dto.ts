@@ -9,6 +9,11 @@ export class CreateUserDto {
     @IsEmail({}, { message: 'El formato del correo es inválido' })
     email: string;
 
+    @IsString()
+    @IsNotEmpty()
+    @MinLength(6, { message: 'La contraseña debe tener al menos 6 caracteres' })
+    password: string;
+
     @IsOptional()
     @IsString()
     phoneNumber?: string;

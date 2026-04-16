@@ -14,6 +14,9 @@ export class User {
     @Column({ default: true })
     isActive: boolean; // Para saber si su membresía está activa
 
+    @Column()
+    password: string;
+
     @Column({ nullable: true })
     phoneNumber: string;
 
