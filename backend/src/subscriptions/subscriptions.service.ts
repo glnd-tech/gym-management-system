@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateSubscriptionDto } from './dto/create-subscription.dto';
@@ -18,6 +18,16 @@ export class SubscriptionsService {
   ) { }
 
   async create(createSubDto: CreateSubscriptionDto) {
+    // 🛡️ REGLA DE NEGOCIO: Validar si el usuario ya tiene una suscripción activa
+    const activeSub = await this.findActiveByUserId(createSubDto.userId);
+
+    if (activeSub) {
+      throw new BadRequestException(
+        `Operación rechazada: El usuario ya tiene una membresía activa que vence el ${activeSub.endDate.toLocaleDateString()}.`
+      );
+    }
+
+    // Lógica para buscar usuario y plan
     const user = await this.userRepository.findOneBy({ id: createSubDto.userId });
     const plan = await this.planRepository.findOneBy({ id: createSubDto.planId });
 
@@ -25,6 +35,7 @@ export class SubscriptionsService {
       throw new NotFoundException('Usuario o Plan no encontrado');
     }
 
+    // Lógica para calcular fechas y crear la suscripción
     const startDate = new Date();
     const endDate = new Date();
     // Sumamos los días del plan a la fecha actual
@@ -45,7 +56,6 @@ export class SubscriptionsService {
     return await this.subRepository.find();
   }
 
-  // ESTA ES LA FUNCIÓN QUE TE FALTABA Y CAUSA EL ERROR
   async findOne(id: number) {
     const sub = await this.subRepository.findOneBy({ id });
     if (!sub) throw new NotFoundException(`Suscripción con ID ${id} no encontrada`);
