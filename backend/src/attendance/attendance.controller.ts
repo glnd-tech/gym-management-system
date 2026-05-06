@@ -1,14 +1,20 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AttendanceService } from './attendance.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 
-@Controller('attendance')
+@Controller('attendance') // Asegúrate de que la ruta sea 'attendance'
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) { }
 
-  // Esta ruta será POST http://localhost:3000/attendance/check-in
+  // Este es el endpoint al que "llamará" el aparato de la puerta
   @Post('check-in')
-  checkIn(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return this.attendanceService.checkIn(createAttendanceDto);
+  create(@Body() createAttendanceDto: CreateAttendanceDto) {
+    return this.attendanceService.create(createAttendanceDto);
+  }
+
+  // Endpoint para los reportes
+  @Get()
+  findAll() {
+    return this.attendanceService.findAll();
   }
 }

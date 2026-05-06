@@ -14,5 +14,6 @@ import { SubscriptionsModule } from '../subscriptions/subscriptions.module'; // 
   ],
   controllers: [AttendanceController],
   providers: [AttendanceService],
+  exports: [AttendanceService]
 })
 export class AttendanceModule { }

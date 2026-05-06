@@ -9,6 +9,11 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { AuthModule } from './auth/auth.module';
 import { AttendanceModule } from './attendance/attendance.module';
 
+// 🚀 NUEVO: Importamos los módulos de Clases y Reservas
+import { WorkoutsModule } from './workouts/workouts.module';
+import { BookingsModule } from './bookings/bookings.module';
+import { AnalyticsModule } from './analytics/analytics.module';
+
 @Module({
   imports: [
     // 1. Cargar las variables del .env
@@ -27,14 +32,15 @@ import { AttendanceModule } from './attendance/attendance.module';
     }),
 
     UsersModule,
-
     PlansModule,
-
     SubscriptionsModule,
-
     AuthModule,
-
     AttendanceModule,
+
+    // 🚀 NUEVO: Registramos los módulos para que NestJS exponga sus rutas
+    WorkoutsModule,
+    BookingsModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

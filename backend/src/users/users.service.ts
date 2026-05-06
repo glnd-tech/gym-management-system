@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException } from '@nestjs/common'; // <-- Aquí importamos la excepción
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common'; // <-- Agregamos NotFoundException
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -40,4 +40,12 @@ export class UsersService {
     return await this.usersRepository.findOneBy({ email });
   }
 
+  // 🛡️ NUEVO MÉTODO: El que necesita el Torniquete para buscar por ID
+  async findOne(id: number) {
+    const user = await this.usersRepository.findOneBy({ id });
+    if (!user) {
+      throw new NotFoundException(`Usuario con ID ${id} no encontrado`);
+    }
+    return user;
+  }
 }

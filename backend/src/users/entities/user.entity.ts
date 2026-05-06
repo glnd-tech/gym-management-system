@@ -22,4 +22,7 @@ export class User {
 
     @CreateDateColumn()
     createdAt: Date; // Fecha de registro automática
+
+    @Column({ default: 'USER' })
+    role: string;
 }

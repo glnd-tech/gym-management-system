@@ -29,14 +29,20 @@ export class AuthService {
 
         // 3. Generar el Token JWT (La Manilla VIP)
         // Guardamos el ID del usuario en 'sub' (subject), es el estándar
-        const payload = { sub: user.id, email: user.email };
+        const payload = {
+            sub: user.id,
+            email: user.email,
+            role: user.role
+        };
 
         return {
             message: 'Login exitoso',
             access_token: await this.jwtService.signAsync(payload),
             user: {
                 id: user.id,
-                fullName: user.fullName
+                fullName: user.fullName,
+                email: user.email,
+                role: user.role
             }
         };
     }

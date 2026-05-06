@@ -1,15 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity'; // Ajusta la ruta si es necesario
 
 @Entity('attendances')
 export class Attendance {
     @PrimaryGeneratedColumn()
     id: number;
 
+    // TypeORM llenará este campo automáticamente con la fecha y hora del sistema al instante de entrar
     @CreateDateColumn()
-    checkInTime: Date; // Guarda automáticamente la fecha y hora exacta del escaneo
+    checkInTime: Date;
 
-    // Relación: Muchas asistencias pertenecen a un solo usuario
-    @ManyToOne(() => User, (user) => user.id, { eager: true })
+    // Relación: Muchas asistencias pueden pertenecer a un solo Usuario
+    @ManyToOne(() => User)
+    @JoinColumn({ name: 'userId' })
     user: User;
 }
