@@ -8,8 +8,6 @@ import { PlansModule } from './plans/plans.module';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 import { AuthModule } from './auth/auth.module';
 import { AttendanceModule } from './attendance/attendance.module';
-
-// 🚀 NUEVO: Importamos los módulos de Clases y Reservas
 import { WorkoutsModule } from './workouts/workouts.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { AnalyticsModule } from './analytics/analytics.module';
@@ -19,25 +17,26 @@ import { AnalyticsModule } from './analytics/analytics.module';
     // 1. Cargar las variables del .env
     ConfigModule.forRoot(),
 
-    // 2. Conexión a la base de datos
+    // 2. Conexión a la base de datos en la Nube (Neon)
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT || '5433', 10),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
+      url: process.env.DATABASE_URL, // Lee la URL completa
       autoLoadEntities: true,
-      synchronize: true, // Sincroniza las tablas automáticamente en modo desarrollo
+      synchronize: true, // Sincroniza las tablas en la nube
+      ssl: true, // Requerido por Neon
+      extra: {
+        ssl: {
+          rejectUnauthorized: false, // Evita bloqueos de certificados
+        },
+      },
     }),
 
+    // 3. Módulos del sistema
     UsersModule,
     PlansModule,
     SubscriptionsModule,
     AuthModule,
     AttendanceModule,
-
-    // 🚀 NUEVO: Registramos los módulos para que NestJS exponga sus rutas
     WorkoutsModule,
     BookingsModule,
     AnalyticsModule,
